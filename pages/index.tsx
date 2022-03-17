@@ -26,7 +26,8 @@ import {
 } from '@nervina-labs/cota-sdk'
 import CKB from '@nervosnetwork/ckb-sdk-core'
 import signWitnesses from '@nervosnetwork/ckb-sdk-core/lib/signWitnesses'
-
+import styles from '../styles/Home.module.css'
+import Head from 'next/head'
 
 const TEST_PRIVATE_KEY = '0xd4537602bd78139bfde0771f43f7c007ea1bbb858507055d2ef6225d4ebec23e'
 const TEST_ADDRESS = 'ckt1qyqdtuf6kx8f7664atn9xkmwc9qcv4phs4xsackhmh'
@@ -60,7 +61,7 @@ const registerCota = async (address = TEST_ADDRESS, privateKey = TEST_PRIVATE_KE
 
   const registryLock = getAlwaysSuccessLock(false)
 
-  let keyMap = new Map < string, string> ()
+  let keyMap = new Map<string, string>()
   keyMap.set(scriptToHash(registryLock), '')
   keyMap.set(scriptToHash(provideCKBLock), privateKey)
 
@@ -254,16 +255,61 @@ const transfer = async () => {
 
 export default function Home() {
   return (
-    <>
-      <button onClick={() => registerCota(TEST_ADDRESS, TEST_PRIVATE_KEY)}> registerCota(Owner) </button>
-      <button onClick={() => registerCota(RECEIVER_ADDRESS, RECEIVER_PRIVATE_KEY)}> registerCota(Receiver) </button>
-      <button onClick={defineNFT}> defineNFT </button>
-      <button onClick={setIssuer}> setIssuer </button>
-      <button onClick={getNFTInfo}> getNFTInfo </button>
-      <button onClick={mint}> mint </button>
-      <button onClick={claim}> claim </button>
-      <button onClick={withdraw}> withdraw </button>
-      <button onClick={transfer}> transfer </button>
-    </>
+    <div className={styles.container}>
+      <Head>
+        <title>COTA SDK Demo</title>
+        <meta name="description" content="COTA SDK Demo" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main className={styles.main}>
+        <h1 className={styles.title}>
+          COTA SDK Demo
+        </h1>
+
+        <p className={styles.description}>
+          Please refer to the <a href="https://github.com/nervina-labs/cota-sdk-js">documentation</a> for more details.
+        </p>
+        <div className={styles.grid}>
+          <div className={styles.card}>
+            <button onClick={() => registerCota(TEST_ADDRESS, TEST_PRIVATE_KEY)}> registerCota(Owner) </button>
+          </div>
+          <div className={styles.card}>
+            <button onClick={() => registerCota(RECEIVER_ADDRESS, RECEIVER_PRIVATE_KEY)}> registerCota(Receiver) </button>
+          </div>
+          <div className={styles.card}>
+            <button onClick={defineNFT}> defineNFT </button>
+          </div>
+          <div className={styles.card}>
+            <button onClick={setIssuer}> setIssuer </button>
+          </div>
+          <div className={styles.card}>
+            <button onClick={getNFTInfo}> getNFTInfo </button>
+          </div>
+          <div className={styles.card}>
+            <button onClick={mint}> mint </button>
+          </div>
+          <div className={styles.card}>
+            <button onClick={claim}> claim </button>
+          </div>
+          <div className={styles.card}>
+            <button onClick={withdraw}> withdraw </button>
+          </div>
+          <div className={styles.card}>
+            <button onClick={transfer}> transfer </button>
+          </div>
+        </div>
+      </main>
+
+      <footer className={styles.footer}>
+        <a
+          href="https://rostra.xyz"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Powered by Rostra
+        </a>
+      </footer>
+    </div >
   )
 }
