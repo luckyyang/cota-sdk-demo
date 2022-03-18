@@ -276,7 +276,7 @@ export default function Home() {
         </h1>
 
         <p className={styles.description}>
-          Please refer to the <a href="https://github.com/nervina-labs/cota-sdk-js">documentation</a> for more details.
+          Before you start, chagne the TODO section in <code>src/pages/index.tsx</code> file.
         </p>
         <div className={styles.grid}>
           <div className={styles.card}>
@@ -311,12 +311,27 @@ export default function Home() {
 
       <footer className={styles.footer}>
         <a
-          href="https://rostra.xyz"
+          href="https://github.com/rebase-network/cota-sdk-demo"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by Rostra
+          Source Code
         </a>
+        <a
+          href="https://github.com/nervina-labs/cota-sdk-js"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          CoTA Source Code
+        </a>
+        <a
+          href="https://developer.mibao.net/docs/develop/cota/overview"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          CoTA Docs
+        </a>
+
       </footer>
     </div >
   )
