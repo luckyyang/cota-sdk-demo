@@ -29,10 +29,11 @@ import signWitnesses from '@nervosnetwork/ckb-sdk-core/lib/signWitnesses'
 import styles from '../styles/Home.module.css'
 import Head from 'next/head'
 
-const TEST_PRIVATE_KEY = '0xd4537602bd78139bfde0771f43f7c007ea1bbb858507055d2ef6225d4ebec23e'
-const TEST_ADDRESS = 'ckt1qyqdtuf6kx8f7664atn9xkmwc9qcv4phs4xsackhmh'
-const RECEIVER_PRIVATE_KEY = '0x305fbaead56bde6f675fe0294e2126377d7025f36bf4bc1c8f840cb0e22eafef'
-const RECEIVER_ADDRESS = 'ckt1qyqrvzu5yw30td23fzw5259j0l0pymj2lc9shtynac'
+// TODO: use your private key and address
+const TEST_PRIVATE_KEY = 'YOUR_PRIVATE_KEY'
+const TEST_ADDRESS = 'YOUR_ADDRESS'
+const RECEIVER_PRIVATE_KEY = 'YOUR_ANOTHER_PRIVATE_KEY'
+const RECEIVER_ADDRESS = 'YOUR_ANOTHER_ADDRESS'
 const OTHER_ADDRESS = 'ckt1qyqz8vxeyrv4nur4j27ktp34fmwnua9wuyqqggd748'
 
 const getSecp256k1CellDep = (isMainnet: boolean): CKBComponents.CellDep => {
