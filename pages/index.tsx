@@ -35,10 +35,24 @@ const RECEIVER_PRIVATE_KEY = '0x305fbaead56bde6f675fe0294e2126377d7025f36bf4bc1c
 const RECEIVER_ADDRESS = 'ckt1qyqrvzu5yw30td23fzw5259j0l0pymj2lc9shtynac'
 const OTHER_ADDRESS = 'ckt1qyqz8vxeyrv4nur4j27ktp34fmwnua9wuyqqggd748'
 
-const secp256k1CellDep = async (ckb: CKB): Promise<CKBComponents.CellDep> => {
-  const secp256k1Dep = (await ckb.loadDeps()).secp256k1Dep
-  return { outPoint: secp256k1Dep?.outPoint || null, depType: 'depGroup' }
+const getSecp256k1CellDep = (isMainnet: boolean): CKBComponents.CellDep => {
+  if (isMainnet) {
+    return {
+      outPoint: {
+        txHash: "0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c",
+        index: "0x0",
+      }, depType: 'depGroup'
+    }
+  }
+  return {
+    outPoint: {
+      txHash: "0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37",
+      index: "0x0",
+    }, depType: 'depGroup'
+  }
 }
+
+const secp256k1Dep = getSecp256k1CellDep(false)
 
 const service: Service = {
   collector: new Collector({
@@ -56,7 +70,6 @@ const registerCota = async (address = TEST_ADDRESS, privateKey = TEST_PRIVATE_KE
   const provideCKBLock = addressToScript(address)
   const unregisteredCotaLock = addressToScript(address)
   let rawTx = await generateRegisterCotaTx(service, [unregisteredCotaLock], provideCKBLock)
-  const secp256k1Dep = await secp256k1CellDep(ckb)
   rawTx.cellDeps.push(secp256k1Dep)
 
   const registryLock = getAlwaysSuccessLock(false)
@@ -99,7 +112,6 @@ const defineNFT = async () => {
   let { rawTx, cotaId: cId } = await generateDefineCotaTx(service, defineLock, 100, '0x00', cotaInfo)
   cotaId = cId
   console.log(` ======> cotaId: ${cotaId}`)
-  let secp256k1Dep = await secp256k1CellDep(ckb)
   console.log(' ===================== secp256k1Dep ===================== ')
   rawTx.cellDeps.push(secp256k1Dep)
   try {
@@ -124,7 +136,6 @@ const setIssuer = async () => {
 
   let rawTx = await generateIssuerInfoTx(service, cotaLock, issuer)
 
-  const secp256k1Dep = await secp256k1CellDep(ckb)
   rawTx.cellDeps.push(secp256k1Dep)
 
   const signedTx = ckb.signTransaction(TEST_PRIVATE_KEY)(rawTx)
@@ -176,7 +187,6 @@ const mint = async () => {
   }
   let rawTx = await generateMintCotaTx(service, mintLock, mintCotaInfo)
 
-  const secp256k1Dep = await secp256k1CellDep(ckb)
   rawTx.cellDeps.push(secp256k1Dep)
 
   const signedTx = ckb.signTransaction(TEST_PRIVATE_KEY)(rawTx)
@@ -198,7 +208,6 @@ const claim = async () => {
   ]
   let rawTx = await generateClaimCotaTx(service, claimLock, withdrawLock, claims)
 
-  const secp256k1Dep = await secp256k1CellDep(ckb)
   rawTx.cellDeps.push(secp256k1Dep)
 
   const signedTx = ckb.signTransaction(RECEIVER_PRIVATE_KEY)(rawTx)
@@ -221,7 +230,6 @@ const withdraw = async () => {
   ]
   let rawTx = await generateWithdrawCotaTx(service, withdrawLock, withdrawals)
 
-  const secp256k1Dep = await secp256k1CellDep(ckb)
   rawTx.cellDeps.push(secp256k1Dep)
 
   const signedTx = ckb.signTransaction(RECEIVER_PRIVATE_KEY)(rawTx)
@@ -244,7 +252,6 @@ const transfer = async () => {
   ]
   let rawTx = await generateTransferCotaTx(service, cotaLock, withdrawLock, transfers)
 
-  const secp256k1Dep = await secp256k1CellDep(ckb)
   rawTx.cellDeps.push(secp256k1Dep)
 
   const signedTx = ckb.signTransaction(RECEIVER_PRIVATE_KEY)(rawTx)
@@ -257,14 +264,14 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>COTA SDK Demo</title>
+        <title>CoTA SDK Demo</title>
         <meta name="description" content="COTA SDK Demo" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          COTA SDK Demo
+          CoTA SDK Demo
         </h1>
 
         <p className={styles.description}>
