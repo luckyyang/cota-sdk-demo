@@ -147,21 +147,38 @@ const setIssuer = async () => {
 
 const getNFTInfo = async () => {
   const aggregator = service.aggregator
+  const lockScript = serializeScript(addressToScript(RECEIVER_ADDRESS))
+  console.log('lockScript: ', lockScript)
   const holds = await aggregator.getHoldCotaNft({
-    lockScript:
-      '0x490000001000000030000000310000009bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce80114000000dc70f33de86fdf381b4fc5bf092bb23d02774801',
+    lockScript,
     page: 0,
     pageSize: 10,
   })
   console.log('======= holds: ', JSON.stringify(holds))
 
   const senderLockHash = await aggregator.getCotaNftSender({
-    lockScript:
-      '0x490000001000000030000000310000009bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce80114000000dc70f33de86fdf381b4fc5bf092bb23d02774801',
+    lockScript,
     cotaId,
     tokenIndex: '0x00000000',
   })
   console.log('======= senderLockHash: ', JSON.stringify(senderLockHash))
+
+  const result = await aggregator.checkReisteredLockHashes([
+    scriptToHash(addressToScript(TEST_ADDRESS)),
+    scriptToHash(addressToScript(RECEIVER_ADDRESS)),
+    scriptToHash(addressToScript(OTHER_ADDRESS)),
+  ])
+
+  //return: {"blockNumber":4779719,"registered":false}
+  // OTHER_ADDRESS is not registered
+  console.log(JSON.stringify(result))
+
+  const defineInfo = await aggregator.getDefineInfo({
+    cotaId,
+  })
+
+  //return: { "blockNumber": 4779719, "configure": "0x00", "issued": 4, "total": 100 }
+  console.log(JSON.stringify(defineInfo))
 }
 
 

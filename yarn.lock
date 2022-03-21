@@ -46,10 +46,10 @@
   resolved "https://registry.npmmirror.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@nervina-labs/cota-sdk@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.npmmirror.com/@nervina-labs/cota-sdk/-/cota-sdk-0.2.2.tgz#066ab6144e2cd71300a895b92ec83bde9a3349b3"
-  integrity sha512-C7gFc1V4iEFrmlSoijOlgwAJP2FlEwdB/zlTNBBo51vMk6KWJOYZ5AgfyBu0BWJ00EhTGoEqWnQGimERhiSWsQ==
+"@nervina-labs/cota-sdk@^0.2.6":
+  version "0.2.6"
+  resolved "https://registry.npmmirror.com/@nervina-labs/cota-sdk/-/cota-sdk-0.2.6.tgz#6606cdb7139d76d3e66e9f481ea1799794a647ec"
+  integrity sha512-QD9k9s4OPeqkc7YFjz20X/Kii5G1pvK08D4vIwY5A9pHKyVd/M4iuwQQ58RYgNVii+GzeXmEDoc8+QUtYMJCNA==
   dependencies:
     "@nervosnetwork/ckb-sdk-core" "^0.102.2"
     "@nervosnetwork/ckb-sdk-utils" "^0.102.2"
