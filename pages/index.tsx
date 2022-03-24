@@ -23,8 +23,8 @@ import {
   IssuerInfo,
   MintCotaInfo,
   TransferWithdrawal,
+  IsClaimedReq
 } from '@nervina-labs/cota-sdk'
-import CKB from '@nervosnetwork/ckb-sdk-core'
 import signWitnesses from '@nervosnetwork/ckb-sdk-core/lib/signWitnesses'
 import styles from '../styles/Home.module.css'
 import Head from 'next/head'
@@ -57,15 +57,13 @@ const secp256k1Dep = getSecp256k1CellDep(false)
 
 const service: Service = {
   collector: new Collector({
-    ckbNodeUrl: 'https://ckb-testnet.rebase.network/rpc', ckbIndexerUrl: 'https://testnet.ckbapp.dev/indexer'
-    // ckbNodeUrl: 'https://testnet.ckb.dev/rpc', ckbIndexerUrl: 'https://testnet.ckbapp.dev/indexer'
-    // ckbNodeUrl: 'https://testnet.ckbapp.dev/rpc', ckbIndexerUrl: 'https://testnet.ckbapp.dev/indexer'
+    ckbNodeUrl: 'https://testnet.ckbapp.dev/rpc', ckbIndexerUrl: 'https://testnet.ckbapp.dev/indexer'
   }),
   aggregator: new Aggregator({ registryUrl: 'http://cota-registry-aggregator.rostra.xyz', cotaUrl: 'http://cota-aggregator.rostra.xyz' }),
 }
 const ckb = service.collector.getCkb()
 
-let cotaId: string = '0x3c7a0ff1c0331c46b84696595eab954613fbf2f3'
+let cotaId: string = '0xd3b2bc022b52ce7282b354d97f9e5e5baf6698d7'
 
 const registerCota = async (address = TEST_ADDRESS, privateKey = TEST_PRIVATE_KEY) => {
   const provideCKBLock = addressToScript(address)
@@ -234,6 +232,20 @@ const claim = async () => {
   console.info(`Claim cota nft tx has been sent with tx hash ${txHash}`)
 }
 
+const isClaimed = async () => {
+  const aggregator = service.aggregator
+  const lockScript = serializeScript(addressToScript(RECEIVER_ADDRESS))
+  const lockHash = scriptToHash(addressToScript(RECEIVER_ADDRESS))
+  const req: IsClaimedReq = {
+    lockHash,
+    cotaId,
+    tokenIndex: '0x00000000'
+  }
+  console.log('lockScript: ', lockScript)
+  const isClaimed = await aggregator.isClaimed(req)
+  console.log(`======= isClaimed ${req.tokenIndex}: `, JSON.stringify(isClaimed))
+}
+
 const withdraw = async () => {
   console.log(` ======> cotaId: ${cotaId}`)
   const withdrawLock = addressToScript(RECEIVER_ADDRESS)
@@ -316,6 +328,9 @@ export default function Home() {
           </div>
           <div className={styles.card}>
             <button onClick={claim}> claim </button>
+          </div>
+          <div className={styles.card}>
+            <button onClick={isClaimed}> isClaimed </button>
           </div>
           <div className={styles.card}>
             <button onClick={withdraw}> withdraw </button>
